@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AboutComponent } from './about/about.component';
 
 const appRoutes: Routes = [
   {
@@ -18,6 +20,9 @@ const appRoutes: Routes = [
   }, {
     path: 'home',
     component: HomeComponent
+  }, {
+    path: 'about',
+    component: AboutComponent
   }, {
     path: '**',
     component: NotFoundComponent
@@ -30,12 +35,16 @@ const appRoutes: Routes = [
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     AngularFontAwesomeModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true })
+    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBxlkBbuOmlXCDtqn0unAwgEKzOoiNqRt8'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
