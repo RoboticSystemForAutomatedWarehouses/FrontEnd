@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AgmCoreModule } from '@agm/core';
+import { HttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -11,6 +12,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AboutComponent } from './about/about.component';
+import { AuthenticationCookieInterceptor } from './Interceptors/authentication.interceptor';
+import { AuthenticationService } from './services/authentication.service';
 
 const appRoutes: Routes = [
   {
@@ -44,9 +47,13 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBxlkBbuOmlXCDtqn0unAwgEKzOoiNqRt8'
-    })
+    }),
+    HttpClient
   ],
-  providers: [],
+  providers: [
+    AuthenticationCookieInterceptor,
+    AuthenticationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
