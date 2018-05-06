@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AgmCoreModule } from '@agm/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBxlkBbuOmlXCDtqn0unAwgEKzOoiNqRt8'
     }),
-    HttpClient
+    HttpClientModule
   ],
   providers: [
     AuthenticationCookieInterceptor,
