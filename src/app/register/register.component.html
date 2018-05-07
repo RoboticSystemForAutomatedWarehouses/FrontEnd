@@ -1,0 +1,40 @@
+<div class="row text-center col-12 m-3">
+    <div class="col-3"></div>
+    <div class="col-6" id="sign_up">
+
+        <div class="row m-3">
+            <label class="col-md-4 text-right"> Name </label>
+            <input class="text col-md-6" [(ngModel)]="model.name">
+        </div>
+
+        <div class="row m-3">
+            <label class="col-md-4 text-right"> Email </label>
+            <input class="text col-md-6" type="email" [(ngModel)]="model.email">
+        </div>
+
+        <div class="row m-3">
+            <label class="col-md-4 text-right"> Password</label>
+            <input class="text col-md-6" type="password" [(ngModel)]="model.password">
+        </div>
+        <div class="row m-3">
+            <label class="col-md-4 text-right"> Confirm Password</label>
+            <input class="text col-md-6" type="password" [(ngModel)]="model.confirm_password">
+        </div>
+
+        <div class="row m-3">
+            <label class="col-md-4 text-right"> Gender</label>
+            <select [(ngModel)]="model.gender">
+              <option value="0">Male</option>
+              <option value="1">Female</option>
+            </select>
+        </div>
+
+        <div class="row m-3">
+            <div class="col-4"></div>
+            <button id="sign_up_button" class="col-4" type="submit" (click)="register()"> Sign Up</button>
+            <div class="col-4"></div>
+        </div>
+    </div>
+
+    <div class="col-3"></div>
+</div>

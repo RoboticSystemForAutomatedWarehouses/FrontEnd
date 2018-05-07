@@ -16,6 +16,7 @@ import { AboutComponent } from './about/about.component';
 import { AuthenticationCookieInterceptor } from './Interceptors/authentication.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
   {
@@ -32,6 +33,8 @@ const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent
   }, {
+    path: 'register', component: RegisterComponent
+  }, {
     path: '**',
     component: NotFoundComponent
   }
@@ -45,7 +48,8 @@ const appRoutes: Routes = [
     HomeComponent,
     NotFoundComponent,
     AboutComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
