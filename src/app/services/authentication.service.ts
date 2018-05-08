@@ -5,7 +5,11 @@ export class AuthenticationService {
 
   constructor() { }
 
-  public isAuthenticated: boolean;
+  public get isAuthenticated(): boolean {
+    return !!this.Id;
+  }
+
   public isAdmin: boolean;
+  public Id: string;
 
 }
