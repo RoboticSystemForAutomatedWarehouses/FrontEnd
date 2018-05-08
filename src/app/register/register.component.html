@@ -1,7 +1,11 @@
 <div class="row text-center col-12 m-3">
     <div class="col-3"></div>
     <div class="col-6" id="sign_up">
-
+        <div *ngIf="errors" class="m-3 alert alert-danger text-danger">
+            <div *ngFor="let error of errors">
+                {{error.code}} : {{error.description}}
+            </div>
+        </div>
         <div class="row m-3">
             <label class="col-md-4 text-right"> Name </label>
             <input class="text col-md-6" [(ngModel)]="model.name">
