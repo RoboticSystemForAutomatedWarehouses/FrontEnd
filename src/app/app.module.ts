@@ -13,7 +13,6 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AboutComponent } from './about/about.component';
-import { AuthenticationCookieInterceptor } from './Interceptors/authentication.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -62,7 +61,6 @@ const appRoutes: Routes = [
     FormsModule
   ],
   providers: [
-    AuthenticationCookieInterceptor,
     AuthenticationService
   ],
   bootstrap: [AppComponent]
