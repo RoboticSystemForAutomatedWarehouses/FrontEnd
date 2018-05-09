@@ -16,6 +16,7 @@ import { AboutComponent } from './about/about.component';
 import { AuthenticationService } from './services/authentication.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const appRoutes: Routes = [
   {
@@ -31,6 +32,9 @@ const appRoutes: Routes = [
   }, {
     path: 'login',
     component: LoginComponent
+  }, {
+    path: 'logout',
+    component: LogoutComponent
   }, {
     path: 'register', component: RegisterComponent
   }, {
@@ -48,7 +52,8 @@ const appRoutes: Routes = [
     NotFoundComponent,
     AboutComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
