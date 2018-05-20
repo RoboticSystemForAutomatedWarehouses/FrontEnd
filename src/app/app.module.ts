@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AgmCoreModule } from '@agm/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LogoutComponent } from './logout/logout.component';
+import { AuthenticationInterceptor } from './authentication-interceptor';
 
 const appRoutes: Routes = [
   {
@@ -66,7 +67,12 @@ const appRoutes: Routes = [
     FormsModule
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
