@@ -19,6 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthenticationInterceptor } from './authentication-interceptor';
 import { CallUsComponent } from './call-us/call-us.component';
+import { HomeComponent as AccountHomeComponent} from './account/home/home.component';
 
 const appRoutes: Routes = [
   {
@@ -43,6 +44,9 @@ const appRoutes: Routes = [
   }, {
     path: 'register', component: RegisterComponent
   }, {
+    path: 'account',
+    component: AccountHomeComponent
+  }, {
     path: '**',
     component: NotFoundComponent
   }
@@ -59,7 +63,8 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     LogoutComponent,
-    CallUsComponent
+    CallUsComponent,
+    AccountHomeComponent
   ],
   imports: [
     BrowserModule,
