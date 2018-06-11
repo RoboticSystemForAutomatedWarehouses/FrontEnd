@@ -5,4 +5,5 @@ export class RemoteUrl {
         Logout: RemoteUrl.BaseUrl + 'Account/Logout',
         Register: RemoteUrl.BaseUrl + 'Account/Register'
     };
+    public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
 }
