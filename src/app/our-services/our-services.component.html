@@ -1,0 +1,30 @@
+<div class="container col-11 m-2">
+    <div class="row">
+        <ng-container *ngIf="data; else loadingTemplate">
+            <div class="col-12">
+                <h3>Our warehouses</h3>
+            </div>
+            <div class="card col-3" *ngFor="let warehouse of data">
+                <div class="card-header">
+                    {{warehouse.name}}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        Initial cost: {{warehouse.priceSchema.baseCost}}$
+                    </div>
+                    <div class="row">
+                        Daily rate: {{warehouse.priceSchema.dailyRate}}$
+                    </div>
+                    <div class="row">
+                        Taxes: {{warehouse.priceSchema.taxPercent}}%
+                    </div>
+                    <button class="btn btn-success mt-2" (click)="addOrder(warehouse)">Add Order</button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #loadingTemplate>
+            <h3 class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
+        </ng-template>
+
+    </div>
+</div>

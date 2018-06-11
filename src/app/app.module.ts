@@ -19,7 +19,8 @@ import { RegisterComponent } from './register/register.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthenticationInterceptor } from './authentication-interceptor';
 import { CallUsComponent } from './call-us/call-us.component';
-import { HomeComponent as AccountHomeComponent} from './account/home/home.component';
+import { HomeComponent as AccountHomeComponent } from './account/home/home.component';
+import { OurServicesComponent } from './our-services/our-services.component';
 
 const appRoutes: Routes = [
   {
@@ -29,6 +30,9 @@ const appRoutes: Routes = [
   }, {
     path: 'home',
     component: HomeComponent
+  }, {
+    path: 'services',
+    component: OurServicesComponent
   }, {
     path: 'about',
     component: AboutComponent
@@ -64,7 +68,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     LogoutComponent,
     CallUsComponent,
-    AccountHomeComponent
+    AccountHomeComponent,
+    OurServicesComponent
   ],
   imports: [
     BrowserModule,
