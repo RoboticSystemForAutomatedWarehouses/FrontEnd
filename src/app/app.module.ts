@@ -6,6 +6,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AgmCoreModule } from '@agm/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { OwlModule } from 'ngx-owl-carousel';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyBxlkBbuOmlXCDtqn0unAwgEKzOoiNqRt8'
     }),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    OwlModule
   ],
   providers: [
     AuthenticationService,
