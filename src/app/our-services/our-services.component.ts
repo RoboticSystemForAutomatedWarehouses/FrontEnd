@@ -82,7 +82,7 @@ class PriceSchema {
   public dailyRate: number;
 }
 
-class StorageSpace {
+export class StorageSpace {
   public warehouseId: number;
   public quantity: number;
   public startDate: Date;
