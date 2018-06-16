@@ -6,4 +6,8 @@ export class RemoteUrl {
         Register: RemoteUrl.BaseUrl + 'Account/Register'
     };
     public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
+    public static Orders = {
+        Check: RemoteUrl.BaseUrl + 'Orders/Check',
+        Confirm: RemoteUrl.BaseUrl + 'Orders/Confirm'
+    };
 }
