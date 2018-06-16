@@ -1,0 +1,55 @@
+<div class="col-12 text-center">
+    <h3>Checkout</h3>
+</div>
+<div class="col-11 m-1">
+    <ng-container *ngIf="!order; else showData">
+        <div class="alert alert-box alert-error">
+            {{message}}
+        </div>
+    </ng-container>
+    <ng-template #showData>
+        <ng-container *ngIf="message && !checkResults">
+            <div class="alert alert-box alert-info">
+                {{message}}
+            </div>
+        </ng-container>
+        <ng-container *ngIf="checkResults">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <table class="table table-active table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>description</th>
+                                <th>price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let entry of checkResults; let i = index" [ngClass]="{'bg-success': entry.item1, 'bg-danger': !entry.item1}">
+                                <th>{{i}}</th>
+                                <th>
+                                    <div>Warehouse: {{order[i].warehouseId}}</div>
+                                    <div>Quantity: {{order[i].quantity}}</div>
+                                    <div>Start Date: {{order[i].startDate}}</div>
+                                    <div>End Date: {{order[i].endDate}}</div>
+                                </th>
+                                <th>{{entry.item2}}</th>
+                                <th>
+                                    <fa name="remove" (click)="removeEntry(i)"></fa>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div *ngIf="canPay" (click)="confirm()" class="btn btn-primary m-1">Continue to payment</div>
+                        <div class="btn btn-warning m-1" (click)="validateWithServer()">Refresh Order</div>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </ng-container>
+    </ng-template>
+
+</div>

@@ -22,6 +22,7 @@ import { AuthenticationInterceptor } from './authentication-interceptor';
 import { CallUsComponent } from './call-us/call-us.component';
 import { HomeComponent as AccountHomeComponent } from './account/home/home.component';
 import { OurServicesComponent } from './our-services/our-services.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 const appRoutes: Routes = [
   {
@@ -34,6 +35,9 @@ const appRoutes: Routes = [
   }, {
     path: 'services',
     component: OurServicesComponent
+  }, {
+    path: 'checkout',
+    component: CheckoutComponent
   }, {
     path: 'about',
     component: AboutComponent
@@ -70,7 +74,8 @@ const appRoutes: Routes = [
     LogoutComponent,
     CallUsComponent,
     AccountHomeComponent,
-    OurServicesComponent
+    OurServicesComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
