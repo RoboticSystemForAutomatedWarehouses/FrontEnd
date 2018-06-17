@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AgmCoreModule } from '@agm/core';
@@ -8,6 +9,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { FormsModule } from '@angular/forms';
 import { OwlModule } from 'ngx-owl-carousel';
 import { AccordionModule } from 'ngx-accordion';
+import { CollapsibleModule } from 'angular2-collapsible';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -24,6 +26,8 @@ import { CallUsComponent } from './call-us/call-us.component';
 import { HomeComponent as AccountHomeComponent } from './account/home/home.component';
 import { OurServicesComponent } from './our-services/our-services.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ItemsComponent } from './account/items/items.component';
+import { MapIteratorPipe } from './pipes/map-iterator.pipe';
 
 const appRoutes: Routes = [
   {
@@ -55,7 +59,13 @@ const appRoutes: Routes = [
     path: 'register', component: RegisterComponent
   }, {
     path: 'account',
-    component: AccountHomeComponent
+    component: AccountHomeComponent,
+    children: [
+      {
+        path: 'items',
+        component: ItemsComponent
+      }
+    ]
   }, {
     path: '**',
     component: NotFoundComponent
@@ -76,7 +86,9 @@ const appRoutes: Routes = [
     CallUsComponent,
     AccountHomeComponent,
     OurServicesComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ItemsComponent,
+    MapIteratorPipe
   ],
   imports: [
     BrowserModule,
@@ -88,7 +100,9 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     OwlModule,
-    AccordionModule
+    AccordionModule,
+    BrowserAnimationsModule,
+    CollapsibleModule
   ],
   providers: [
     AuthenticationService,
