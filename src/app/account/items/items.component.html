@@ -1,0 +1,51 @@
+<div *ngIf="message" class="text text-danger alert alert-box alert-danger">
+    {{message}}
+</div>
+<div *ngIf="success===false" class="text text-danger alert alert-box alert-danger">
+    Error while processing request, check developer console for info.
+</div>
+<div *ngIf="success===true" class="text text-success alert alert-box alert-success">
+    Operation performed successfully.
+</div>
+<div *ngIf="success===undefined" class="text text-warning alert alert-box alert-warning">
+    Operation in progress, please wait...
+</div>
+
+<collapsible-list [type]="'accordion'">
+    <collapsible-list-item *ngFor="let tuple of result">
+        <collapsible-header class="waves-effect">
+            {{tuple.name}}
+        </collapsible-header>
+        <collapsible-body expanded="false">
+            <div class="text-success">Free: {{tuple.entry.free.length}}</div>
+            <div class="text-danger">Used: {{tuple.entry.used.length}}</div>
+            Items:
+            <div class="card">
+                <div *ngFor="let category of tuple.entry.items|mapIterator">
+                    {{category.key}}: {{category.val.length}}
+                </div>
+            </div>
+            <div *ngIf="tuple.entry.free.length > 0">
+                Add item:
+                <div class="container">
+                    <div class="row">
+                        <div class="label">Arrive Date:</div>
+                        <input type="date" [(ngModel)]="model.ArriveDate" />
+                    </div>
+                    <div class="row">
+                        <div class="label">Quantity:</div>
+                        <input type="number" [(ngModel)]="count" min="0" max="{{tuple.entry.free.length}}" />
+                    </div>
+                    <div class="row">
+                        Category:
+                        <select [(ngModel)]="model.categoryId" style="display: inline;">
+              <option *ngFor="let cat of categories" [ngValue]="cat.id">{{cat.name}}</option>
+            </select>
+                    </div>
+                    <div class="btn btn-success" (click)="submit(tuple.entry)">Submit</div>
+                </div>
+            </div>
+        </collapsible-body>
+    </collapsible-list-item>
+
+</collapsible-list>
