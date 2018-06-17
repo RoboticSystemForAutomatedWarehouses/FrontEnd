@@ -7,6 +7,7 @@ import { AgmCoreModule } from '@agm/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { OwlModule } from 'ngx-owl-carousel';
+import { AccordionModule } from 'ngx-accordion';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -86,7 +87,8 @@ const appRoutes: Routes = [
     }),
     HttpClientModule,
     FormsModule,
-    OwlModule
+    OwlModule,
+    AccordionModule
   ],
   providers: [
     AuthenticationService,
