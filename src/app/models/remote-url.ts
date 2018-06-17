@@ -8,6 +8,15 @@ export class RemoteUrl {
     public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
     public static Orders = {
         Check: RemoteUrl.BaseUrl + 'Orders/Check',
-        Confirm: RemoteUrl.BaseUrl + 'Orders/Confirm'
+        Confirm: RemoteUrl.BaseUrl + 'Orders/Confirm',
+        List: RemoteUrl.BaseUrl + 'Orders/List'
     };
+    public static Categories = {
+        List: RemoteUrl.BaseUrl + 'Categories/List'
+    };
+    public static Items = {
+        // Order/{orderId}/StorageSpaces/[action]/{storageId}
+        Insert(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Insert/${storageId}`; },
+        Remove(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Remove/${storageId}`; }
+    }
 }
