@@ -36,7 +36,7 @@
             <div class="col-12 center" *ngIf="model">
                 <div class="row">
                     <div>Quantity: </div>
-                    <input type="number" [(ngModel)]="model.quantity">
+                    <input type="number" min="0" [(ngModel)]="model.quantity">
                 </div>
                 <div class="row">
                     <div>Start Date: </div>
