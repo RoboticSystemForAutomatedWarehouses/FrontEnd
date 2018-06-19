@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RemoteUrl } from '../../models/remote-url';
 import { ServerResponse } from '../../models/server-response';
-import { INVALID } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-items',
@@ -73,9 +72,6 @@ export class ItemsComponent implements OnInit {
       return;
     }
     this.success = undefined;
-    console.log(this.count);
-    console.log(this.model);
-    console.log(entry);
     const quantity = this.count;
     this.sendRequest(entry, quantity);
   }
@@ -94,6 +90,40 @@ export class ItemsComponent implements OnInit {
         this.success = false;
       }
     });
+  }
+
+  withdrawItem(selector: string) {
+    const quantity = parseInt((<HTMLInputElement>document.getElementById(selector + '||num')).value, 10);
+    const date = (<HTMLInputElement>document.getElementById(selector + '||date')).value;
+    const name = selector.split('||')[0];
+    const key = selector.split('||')[1];
+    for (const tuple of this.result) {
+      if (tuple.name !== name) {
+        continue;
+      }
+      const arr = tuple.entry.items.get(key);
+      this.success = undefined;
+      this.sendWithdrawRequest(arr, quantity, date);
+    }
+  }
+
+  sendWithdrawRequest(arr: Array<{ orderId: number, storageId: number }>, quantity: number, date: string) {
+    if (quantity < 1) {
+      this.success = true;
+      return;
+    }
+    const ids = arr.pop();
+    this.http.post<ServerResponse<any>>(
+      RemoteUrl.Items.Remove(ids.orderId, ids.storageId) + `?removeDate=${date}`, {})
+      .subscribe(res => {
+        if (res.success) {
+          this.sendWithdrawRequest(arr, quantity - 1, date);
+        } else {
+          console.log(res);
+          this.success = false;
+          arr.push(ids);
+        }
+      });
   }
 }
 

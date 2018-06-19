@@ -21,8 +21,15 @@
             <div class="text-danger">Used: {{tuple.entry.used.length}}</div>
             Items:
             <div class="card">
-                <div *ngFor="let category of tuple.entry.items|mapIterator">
-                    {{category.key}}: {{category.val.length}}
+                <div class="row col-12 m-2" *ngFor="let category of tuple.entry.items|mapIterator">
+                    <div class="col-3">
+                        {{category.key}}: {{category.val.length}}
+                    </div>
+                    <input id="{{tuple.name}}||{{category.key}}||num" class="col-2 input-group-sm m-2" type="number" min="0" value="0" max="{{category.val.length}}" />
+                    <input id="{{tuple.name}}||{{category.key}}||date" class="col-2 input-group-sm m-2" type="date" />
+                    <div class="btn btn-warning col-3" (click)="withdrawItem(tuple.name.toString()+'||'+category.key.toString())">
+                        Withdraw.
+                    </div>
                 </div>
             </div>
             <div *ngIf="tuple.entry.free.length > 0">
