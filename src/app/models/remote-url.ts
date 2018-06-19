@@ -18,5 +18,5 @@ export class RemoteUrl {
         // Order/{orderId}/StorageSpaces/[action]/{storageId}
         Insert(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Insert/${storageId}`; },
         Remove(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Remove/${storageId}`; }
-    }
+    };
 }
