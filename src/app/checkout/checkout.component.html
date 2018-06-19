@@ -8,6 +8,16 @@
         </div>
     </ng-container>
     <ng-template #showData>
+
+        <div *ngIf="success===false" class="text text-danger alert alert-box alert-danger">
+            Error while processing request, check developer console for info.
+        </div>
+        <div *ngIf="success===true" class="text text-success alert alert-box alert-success">
+            Operation performed successfully.
+        </div>
+        <div *ngIf="success===undefined" class="text text-warning alert alert-box alert-warning">
+            Operation in progress, please wait...
+        </div>
         <ng-container *ngIf="message && !checkResults">
             <div class="alert alert-box alert-info">
                 {{message}}

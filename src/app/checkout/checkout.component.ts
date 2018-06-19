@@ -15,10 +15,12 @@ export class CheckoutComponent implements OnInit {
   public message: string;
   public checkResults: Array<CheckEntry>;
   public canPay: boolean;
+  public success: boolean;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.success = null;
     this.canPay = false;
     this.checkResults = null;
     const data = localStorage.getItem('order');
@@ -46,8 +48,14 @@ export class CheckoutComponent implements OnInit {
   }
 
   confirm() {
+    this.success = undefined;
     this.http.post<ServerResponse<any>>(RemoteUrl.Orders.Confirm, '').subscribe(res => {
       console.log(res);
+      this.success = res.success;
+      if (res.success) {
+        this.order = [];
+        this.saveOrder();
+      }
     });
   }
   removeEntry(idx: number) {
