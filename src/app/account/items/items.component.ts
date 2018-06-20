@@ -79,6 +79,7 @@ export class ItemsComponent implements OnInit {
   sendRequest(entry: Entry, quantity: number) {
     if (quantity === 0) {
       this.success = true;
+      this.ngOnInit();
       return;
     }
     const ids = entry.free.pop();
@@ -101,8 +102,12 @@ export class ItemsComponent implements OnInit {
       if (tuple.name !== name) {
         continue;
       }
-      const arr = tuple.entry.items.get(key);
+      if (this.success === undefined) {
+        alert('already processing another order. Please wait...');
+        return;
+      }
       this.success = undefined;
+      const arr = tuple.entry.items.get(key);
       this.sendWithdrawRequest(arr, quantity, date);
     }
   }
@@ -110,6 +115,7 @@ export class ItemsComponent implements OnInit {
   sendWithdrawRequest(arr: Array<{ orderId: number, storageId: number }>, quantity: number, date: string) {
     if (quantity < 1) {
       this.success = true;
+      this.ngOnInit();
       return;
     }
     const ids = arr.pop();
