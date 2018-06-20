@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                     <div>Start Date: </div>
-                    <input type="date" min="{{today}}" (input)="startDayChange()" [(ngModel)]="model.startDate" class="m-1">
+                    <input type="date" min="{{today}}" (change)="startDayChange()" [(ngModel)]="model.startDate" class="m-1">
                 </div>
                 <div class="row">
                     <div>End Date: </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="row">
                     <div class="btn btn-success m-1" (click)="addOrder(model, !editing)">Save</div>
-                    <div class="btn btn-danger m-1" (click)="cancel()">Cancel</div>
+                    <div *ngIf="!editing" class="btn btn-danger m-1" (click)="cancel()">Cancel</div>
                 </div>
             </div>
         </div>

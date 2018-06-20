@@ -40,7 +40,7 @@ export class OurServicesComponent implements OnInit {
   }
 
   public get today() {
-    return new Date().toISOString().split('T')[0];
+    return new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
   }
   public startDayChange() {
     console.log(this.model);
