@@ -16,6 +16,8 @@ export class OurServicesComponent implements OnInit {
   public order: Array<StorageSpace>;
   public model: StorageSpace;
   public editing: boolean;
+  public minEndDay: string;
+  public maxUnits: number;
 
   constructor(private http: HttpClient, public auth: AuthenticationService) {
     this.message = 'Loading... Please wait';
@@ -23,6 +25,7 @@ export class OurServicesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.data = null;
     this.http.get<ServerResponse<Array<Warehouse>>>(RemoteUrl.Warehouse).subscribe(res => {
       console.log(res);
       if (!res.success) {
@@ -36,6 +39,18 @@ export class OurServicesComponent implements OnInit {
     });
   }
 
+  public get today() {
+    return new Date().toISOString().split('T')[0];
+  }
+  public startDayChange() {
+    console.log(this.model);
+    if (this.model && this.model.startDate) {
+      this.minEndDay = new Date(new Date(this.model.startDate).getTime() + 8 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    } else {
+      this.minEndDay = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    }
+  }
+
   private saveOrder() {
     localStorage.setItem('order', JSON.stringify(this.order));
     this.model = null;
@@ -46,9 +61,11 @@ export class OurServicesComponent implements OnInit {
   }
 
   createOrder(warehouse: Warehouse) {
+    console.log(this.data);
     this.editing = false;
     this.model = new StorageSpace();
     this.model.warehouseId = warehouse.id;
+    this.maxUnits = warehouse.available;
   }
 
   addOrder(storage: StorageSpace, add: boolean) {
@@ -62,6 +79,7 @@ export class OurServicesComponent implements OnInit {
   editOrder(idx: number) {
     this.editing = true;
     this.model = this.order[idx];
+    this.maxUnits = this.data.filter((w) => w.id === this.model.warehouseId)[0].available;
   }
 
   removeOrder(idx: number) {
@@ -74,6 +92,7 @@ class Warehouse {
   public name: string;
   public id: number;
   public priceSchema: PriceSchema;
+  public available: number;
 }
 
 class PriceSchema {

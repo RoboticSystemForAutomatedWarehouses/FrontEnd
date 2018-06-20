@@ -1,34 +1,33 @@
 <div class="container row col-11 m-2">
     <div class="col-3">
-        <ng-container *ngIf="data; else loadingTemplate">
-            <div class="col-12 text-center">
-                <h3>Our warehouses</h3>
-            </div>
-            <owl-carousel [options]="{items: 4, navigation: true}" [carouselClasses]="['owl-theme', 'sliding']">
-                <div class="item" *ngFor="let warehouse of data">
-                    <div class="card m-1">
-                        <div class="card-header">
-                            {{warehouse.name}}
+        <div class="col-12 text-center">
+            <h3>Our warehouses</h3>
+        </div>
+        <h3 *ngIf="data===null" class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
+        <owl-carousel *ngIf="data!==null" [options]="{items: 1, navigation: true}" [carouselClasses]="['owl-theme']">
+            <div class="item" *ngFor="let warehouse of data">
+                <div class="card m-1">
+                    <div class="card-header">
+                        {{warehouse.name}}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            Initial cost: {{warehouse.priceSchema.baseCost}}$
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                Initial cost: {{warehouse.priceSchema.baseCost}}$
-                            </div>
-                            <div class="row">
-                                Daily rate: {{warehouse.priceSchema.dailyRate}}$
-                            </div>
-                            <div class="row">
-                                Taxes: {{warehouse.priceSchema.taxPercent}}%
-                            </div>
-                            <button class="btn btn-success mt-2" (click)="createOrder(warehouse)">Add Order</button>
+                        <div class="row">
+                            Daily rate: {{warehouse.priceSchema.dailyRate}}$
                         </div>
+                        <div class="row">
+                            Taxes: {{warehouse.priceSchema.taxPercent}}%
+                        </div>
+                        <div class="row">
+                            Available units: {{warehouse.available}}
+                        </div>
+                        <button class="btn btn-success mt-2" (click)="createOrder(warehouse)">Add Order</button>
                     </div>
                 </div>
-            </owl-carousel>
-        </ng-container>
-        <ng-template #loadingTemplate>
-            <h3 class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
-        </ng-template>
+            </div>
+        </owl-carousel>
     </div>
     <div class="col-6">
         <h3 class="text-center">{{editing ? 'Edit' : 'Add'}} Order</h3>
@@ -36,19 +35,20 @@
             <div class="col-12 center" *ngIf="model">
                 <div class="row">
                     <div>Quantity: </div>
-                    <input type="number" min="0" [(ngModel)]="model.quantity">
+                    <input type="number" min="0" [max]="maxUnits" [(ngModel)]="model.quantity" class="m-1">
+                    <div class="text text-info">maximum ({{maxUnits}})</div>
                 </div>
                 <div class="row">
                     <div>Start Date: </div>
-                    <input type="date" [(ngModel)]="model.startDate">
+                    <input type="date" min="{{today}}" (input)="startDayChange()" [(ngModel)]="model.startDate" class="m-1">
                 </div>
                 <div class="row">
                     <div>End Date: </div>
-                    <input type="date" [(ngModel)]="model.endDate">
+                    <input type="date" [min]="minEndDay" [(ngModel)]="model.endDate" class="m-1">
                 </div>
                 <div class="row">
-                    <div class="btn btn-success" (click)="addOrder(model, !editing)">Save</div>
-                    <div class="btn btn-danger" (click)="cancel()">Cancel</div>
+                    <div class="btn btn-success m-1" (click)="addOrder(model, !editing)">Save</div>
+                    <div class="btn btn-danger m-1" (click)="cancel()">Cancel</div>
                 </div>
             </div>
         </div>
