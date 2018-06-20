@@ -17,37 +17,46 @@
             {{tuple.name}}
         </collapsible-header>
         <collapsible-body expanded="false">
-            <div class="text-success">Free: {{tuple.entry.free.length}}</div>
-            <div class="text-danger">Used: {{tuple.entry.used.length}}</div>
-            Items:
             <div class="card">
-                <div class="row col-12 m-2" *ngFor="let category of tuple.entry.items|mapIterator">
-                    <div class="col-3">
-                        {{category.key}}: {{category.val.length}}
-                    </div>
-                    <input id="{{tuple.name}}||{{category.key}}||num" class="col-2 input-group-sm m-2" type="number" min="0" value="0" max="{{category.val.length}}" />
-                    <input id="{{tuple.name}}||{{category.key}}||date" class="col-2 input-group-sm m-2" type="date" />
-                    <div class="btn btn-warning col-3" (click)="withdrawItem(tuple.name.toString()+'||'+category.key.toString())">
-                        Withdraw.
+                <div class="card-title">
+                    Summary:
+                </div>
+                <div class="card-body">
+                    <div class="text-success">Free: {{tuple.entry.free.length}}</div>
+                    <div class="text-danger">Used: {{tuple.entry.used.length}}</div>
+                </div>
+            </div>
+            <div class="card" *ngIf="tuple.entry.items.size > 0">
+                <div class="card-title">Items:</div>
+                <div class="card-body">
+                    <div class="row col-12 m-2" *ngFor="let category of tuple.entry.items|mapIterator">
+                        <div class="col-3">
+                            {{category.key}}: {{category.val.length}}
+                        </div>
+                        <input id="{{tuple.name}}||{{category.key}}||num" class="col-2 input-group-sm m-2" type="number" min="0" value="0" max="{{category.val.length}}" />
+                        <input id="{{tuple.name}}||{{category.key}}||date" class="col-2 input-group-sm m-2" type="date" />
+                        <div class="btn btn-warning col-3" (click)="withdrawItem(tuple.name.toString()+'||'+category.key.toString())">
+                            Withdraw.
+                        </div>
                     </div>
                 </div>
             </div>
-            <div *ngIf="tuple.entry.free.length > 0">
-                Add item:
-                <div class="container">
+            <div class="card" *ngIf="tuple.entry.free.length > 0">
+                <div class="card-title">Add item:</div>
+                <div class="card-body">
                     <div class="row">
                         <div class="label">Arrive Date:</div>
-                        <input type="date" [(ngModel)]="model.ArriveDate" />
+                        <input type="date" [(ngModel)]="model.ArriveDate" [min]="tuple.entry.startDate" [max]="tuple.entry.endDate" />
                     </div>
                     <div class="row">
                         <div class="label">Quantity:</div>
-                        <input type="number" [(ngModel)]="count" min="0" max="{{tuple.entry.free.length}}" />
+                        <input type="number" [(ngModel)]="count" min="0" [max]="tuple.entry.free.length" />
                     </div>
                     <div class="row">
                         Category:
                         <select [(ngModel)]="model.categoryId" style="display: inline;">
-              <option *ngFor="let cat of categories" [ngValue]="cat.id">{{cat.name}}</option>
-            </select>
+                    <option *ngFor="let cat of categories" [ngValue]="cat.id">{{cat.name}}</option>
+                  </select>
                     </div>
                     <div class="btn btn-success" (click)="submit(tuple.entry)">Submit</div>
                 </div>
