@@ -28,6 +28,7 @@ import { OurServicesComponent } from './our-services/our-services.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ItemsComponent } from './account/items/items.component';
 import { MapIteratorPipe } from './pipes/map-iterator.pipe';
+import { OrderTotalPipe } from './pipes/order-total.pipe';
 
 const appRoutes: Routes = [
   {
@@ -88,7 +89,8 @@ const appRoutes: Routes = [
     OurServicesComponent,
     CheckoutComponent,
     ItemsComponent,
-    MapIteratorPipe
+    MapIteratorPipe,
+    OrderTotalPipe
   ],
   imports: [
     BrowserModule,
