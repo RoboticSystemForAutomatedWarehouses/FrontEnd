@@ -57,6 +57,7 @@
     </div>
     <div class="col-3">
         <h3 class="text-center">Orders basket</h3>
+        <div class="text text-primary text-center">( <i>{{order|orderTotal}}</i> )</div>
         <owl-carousel [items]="order" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
             <div class="card item" ngfor *ngFor="let entry of order; let i=index">
                 <div class="card-body">
