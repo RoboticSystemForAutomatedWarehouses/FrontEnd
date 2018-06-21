@@ -129,6 +129,7 @@ export class StorageSpace {
   public get price(): number {
     return (this.priceSchema.baseCost
       + this.priceSchema.dailyRate * (Math.round((<any>new Date(this.endDate) - <any>new Date(this.startDate)) / (1000 * 60 * 60 * 24))))
-      * this.priceSchema.taxPercent;
+      * this.priceSchema.taxPercent
+      * this.quantity;
   }
 }
