@@ -21,7 +21,9 @@ export class OurServicesComponent implements OnInit {
 
   constructor(private http: HttpClient, public auth: AuthenticationService) {
     this.message = 'Loading... Please wait';
-    this.order = JSON.parse(localStorage.getItem('order')) || [];
+    this.order = (JSON.parse(localStorage.getItem('order')) || []).map(s => {
+      return Object.assign(new StorageSpace(), s);
+    });
   }
 
   ngOnInit() {
@@ -66,6 +68,7 @@ export class OurServicesComponent implements OnInit {
     this.model = new StorageSpace();
     this.model.warehouseId = warehouse.id;
     this.maxUnits = warehouse.available;
+    this.model.priceSchema = warehouse.priceSchema;
   }
 
   addOrder(storage: StorageSpace, add: boolean) {
@@ -106,4 +109,11 @@ export class StorageSpace {
   public quantity: number;
   public startDate: Date;
   public endDate: Date;
+  public priceSchema: PriceSchema;
+
+  public get price(): number {
+    return (this.priceSchema.baseCost
+      + this.priceSchema.dailyRate * (Math.round((<any>new Date(this.endDate) - <any>new Date(this.startDate)) / (1000 * 60 * 60 * 24))))
+      * this.priceSchema.taxPercent;
+  }
 }

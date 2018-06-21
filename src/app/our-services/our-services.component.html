@@ -4,7 +4,7 @@
             <h3>Our warehouses</h3>
         </div>
         <h3 *ngIf="data===null" class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
-        <owl-carousel *ngIf="data!==null" [options]="{items: 1, navigation: true}" [carouselClasses]="['owl-theme']">
+        <owl-carousel [items]="data" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
             <div class="item" *ngFor="let warehouse of data">
                 <div class="card m-1">
                     <div class="card-header">
@@ -55,28 +55,38 @@
     </div>
     <div class="col-3">
         <h3 class="text-center">Orders basket</h3>
-        <div class="card" ngfor *ngFor="let entry of order; let i=index">
-            <div class="card-body">
-                <div class="row">Warehouse: {{entry.warehouseId}}</div>
-                <div class="row">Quantity: {{entry.quantity}}</div>
-                <div class="row">{{entry.startDate}} | {{entry.endDate}}</div>
-                <div class="row">
-                    <fa name="edit" size="lg" (click)="editOrder(i)"></fa>
-                    &nbsp;&nbsp;
-                    <fa name="close" size="lg" (click)="removeOrder(i)"></fa>
+        <owl-carousel [items]="order" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
+            <div class="card item" ngfor *ngFor="let entry of order; let i=index">
+                <div class="card-body">
+                    <div class="row">Warehouse: {{entry.warehouseId}}</div>
+                    <div class="row">Quantity: {{entry.quantity}}</div>
+                    <div class="row">{{entry.startDate}} | {{entry.endDate}}</div>
+                    <div class="row">Price: {{entry.price}}</div>
+                    <div class="row m-1">
+                        <fa name="edit" size="lg" (click)="editOrder(i)"></fa>
+                        &nbsp;&nbsp;
+                        <fa name="close" size="lg" (click)="removeOrder(i)"></fa>
+                    </div>
                 </div>
             </div>
+        </owl-carousel>
+        <div class="m-1">
+            <ng-container *ngIf="auth.isAuthenticated; else loginToCheckout">
+                <ng-container *ngIf="order.length > 0; else emptyCart">
+                    <a routerLink="/checkout">
+                        <div class="btn btn-warning">Checkout</div>
+                    </a>
+                </ng-container>
+                <ng-template #emptyCart>
+                    <div class="text text-info">Your cart is empty. Checkout our available warehouses in the other side.</div>
+                </ng-template>
+            </ng-container>
+            <ng-template #loginToCheckout>
+                <div class="alert-danger">
+                    <a routerLink="/login">Login</a> or
+                    <a routerLink="/register">Register</a> to checkout
+                </div>
+            </ng-template>
         </div>
-        <ng-container *ngIf="auth.isAuthenticated; else loginToCheckout">
-            <a routerLink="/checkout">
-                <div class="btn btn-warning">Checkout</div>
-            </a>
-        </ng-container>
-        <ng-template #loginToCheckout>
-            <div class="alert-danger">
-                <a routerLink="/login">Login</a> or
-                <a routerLink="/register">Register</a> to checkout
-            </div>
-        </ng-template>
     </div>
 </div>
