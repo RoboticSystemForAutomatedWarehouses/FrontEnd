@@ -3,7 +3,9 @@
         <div class="col-12 text-center">
             <h3>Our warehouses</h3>
         </div>
-        <h3 *ngIf="data===null" class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
+        <div *ngIf="data===null" class="m-1 card">
+            <h3 class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
+        </div>
         <owl-carousel [items]="data" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
             <div class="item" *ngFor="let warehouse of data">
                 <div class="card m-1">
@@ -78,7 +80,7 @@
                     </a>
                 </ng-container>
                 <ng-template #emptyCart>
-                    <div class="text text-info">Your cart is empty. Checkout our available warehouses in the other side.</div>
+                    <div class="card m-1 text text-info">Your cart is empty. Checkout our available warehouses in the other side.</div>
                 </ng-template>
             </ng-container>
             <ng-template #loginToCheckout>
