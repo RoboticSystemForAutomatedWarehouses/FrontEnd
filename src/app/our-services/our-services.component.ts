@@ -73,7 +73,13 @@ export class OurServicesComponent implements OnInit {
 
   addOrder(storage: StorageSpace, add: boolean) {
     if (add) {
-      this.order.push(storage);
+      if (storage.quantity > 0) {
+        this.order.push(storage);
+      }
+    } else {
+      if (storage.quantity === 0) {
+        this.order.splice(this.order.indexOf(storage), 1);
+      }
     }
     this.saveOrder();
     this.model = null;
