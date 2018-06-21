@@ -72,6 +72,15 @@ export class OurServicesComponent implements OnInit {
   }
 
   addOrder(storage: StorageSpace, add: boolean) {
+    if (!storage.startDate || !storage.endDate) {
+      alert('Invalid dates, please make sure to enter the dates and the period is at least 7 days.');
+      return;
+    }
+    if ((<any>new Date() - <any>new Date(storage.startDate) < 0)
+      || (Math.round((<any>new Date(storage.endDate) - <any>new Date(storage.startDate)) / (1000 * 60 * 60 * 24)))) {
+      alert('Invalid date period, please make sure to enter the dates and the period is at least 7 days.');
+      return;
+    }
     if (add) {
       if (storage.quantity > 0) {
         this.order.push(storage);
