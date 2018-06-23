@@ -10,128 +10,128 @@ import { ServerResponse } from '../../models/server-response';
 })
 export class ItemsComponent implements OnInit {
 
-  public isLoading: boolean;
-  public message: string;
   public success: boolean; // true=success, false=fail, undefined=in progress, null=no operation.
-  public result: Array<{ name: string, entry: Entry }>;
+  public data: Map<string, Map<string, Array<Slot>>>;
   public categories: Array<Category>;
-  public count: number;
   public model: ItemViewModel;
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.success = null;
     this.model = new ItemViewModel();
-    this.count = 0;
-    this.isLoading = true;
-    this.message = null;
-    const data = new Map<string, Entry>();
+    this.model.quantity = 0;
+    this.data = null;
+    this.success = undefined;
     this.http.get<ServerResponse<Array<Category>>>(RemoteUrl.Categories.List).subscribe(categories => {
       this.categories = categories.result;
       this.http.get<ServerResponse<Array<Response>>>(RemoteUrl.Orders.List).subscribe(res => {
+        this.success = res.success;
         if (!res.success) {
-          this.message = res.message;
           return;
         }
+        const result: Array<Slot> = [];
         for (const order of res.result) {
           for (const space of order.storageSpaces) {
-            let entry = new Entry();
-            entry.startDate = space.startDate;
-            entry.endDate = space.endDate;
-            if (!data.has(entry.name)) {
-              entry.free = [];
-              entry.used = [];
-              entry.items = new Map();
-              data.set(entry.name, entry);
-            } else {
-              entry = data.get(entry.name);
+            const spaceStartDate = new Date(space.startDate.split('T')[0]);
+            const spaceEndDate = new Date(space.endDate.split('T')[0]);
+            let slot = new Slot();
+            slot.orderId = order.id;
+            slot.storageId = space.id;
+            slot.startDate = spaceStartDate;
+            for (const item of space.item) {
+              slot.endDate = new Date(item.arriveDate.split('T')[0]);
+              if (slot.startDate.getTime() - slot.endDate.getTime() !== 0) {
+                result.push(slot);
+              }
+              slot = new Slot();
+              slot.orderId = order.id;
+              slot.storageId = space.id;
+              slot.startDate = new Date(item.arriveDate.split('T')[0]);
+              slot.item = item;
+              if (!item.removeDate) {
+                break;
+              }
+              slot.endDate = new Date(item.removeDate.split('T')[0]);
+              if (slot.startDate.getTime() - slot.endDate.getTime() !== 0) {
+                result.push(slot);
+              }
+              slot = new Slot();
+              slot.orderId = order.id;
+              slot.storageId = space.id;
+              slot.startDate = new Date(item.removeDate.split('T')[0]);
             }
-            if (space.item) {
-              entry.used.push({ orderId: order.id, storageId: space.id });
-              const arr = (entry.items.get(space.item.name) || []);
-              arr.push({ orderId: order.id, storageId: space.id });
-              entry.items.set(space.item.name, arr);
-            } else {
-              entry.free.push({ orderId: order.id, storageId: space.id });
+            slot.endDate = spaceEndDate;
+            if (slot.startDate.getTime() - slot.endDate.getTime() !== 0) {
+              result.push(slot);
             }
           }
         }
-        this.result = [];
-        data.forEach((value, key) => {
-          this.result.push({ name: key, entry: value });
-        });
+        const data = new Map();
+        for (const entry of result) {
+          const period =
+            entry.startDate.toISOString().slice(0, 10).split('-').reverse().join('-')
+            + ' || '
+            + entry.endDate.toISOString().slice(0, 10).split('-').reverse().join('-');
+          if (!data.has(period)) {
+            data.set(period, new Map());
+          }
+          const periodEntry = data.get(period);
+          const name = entry.item ? entry.item.name : null;
+          if (!periodEntry.has(name)) {
+            periodEntry.set(name, []);
+          }
+          periodEntry.get(name).push(entry);
+        }
+        console.log(data);
+        this.data = data;
       });
     });
   }
 
-  public submit(entry: Entry) {
-    if (this.success === undefined) {
-      alert('already processing another order. Please wait...');
+  public insertItem(arr: Array<Slot>) {
+    if (this.model.quantity > arr.length) {
+      alert('Not enough free space');
       return;
     }
+    if (!this.model.arriveDate) {
+      alert('Arrive date can\'t be empty');
+      return;
+    }
+    if (new Date(this.model.arriveDate) < arr[0].startDate) {
+      alert('Item can\'t arrive before contract start date.');
+      return;
+    }
+    if (!this.model.categoryId) {
+      alert('Category can\'t be empty.');
+      return;
+    }
+    const count = this.model.quantity;
     this.success = undefined;
-    const quantity = this.count;
-    this.sendRequest(entry, quantity);
+    this.sendInsertRequest(arr, this.model, count);
   }
 
-  sendRequest(entry: Entry, quantity: number) {
-    if (quantity === 0) {
-      this.success = true;
-      this.ngOnInit();
-      return;
-    }
-    const ids = entry.free.pop();
-    this.http.post<ServerResponse<any>>(RemoteUrl.Items.Insert(ids.orderId, ids.storageId), this.model).subscribe(res => {
-      if (res.success) {
-        this.sendRequest(entry, quantity - 1);
-      } else {
-        console.log(res);
-        this.success = false;
-      }
-    });
-  }
-
-  withdrawItem(selector: string) {
-    const quantity = parseInt((<HTMLInputElement>document.getElementById(selector + '||num')).value, 10);
-    const date = (<HTMLInputElement>document.getElementById(selector + '||date')).value;
-    const name = selector.split('||')[0];
-    const key = selector.split('||')[1];
-    for (const tuple of this.result) {
-      if (tuple.name !== name) {
-        continue;
-      }
-      if (this.success === undefined) {
-        alert('already processing another order. Please wait...');
-        return;
-      }
-      this.success = undefined;
-      const arr = tuple.entry.items.get(key);
-      this.sendWithdrawRequest(arr, quantity, date);
-    }
-  }
-
-  sendWithdrawRequest(arr: Array<{ orderId: number, storageId: number }>, quantity: number, date: string) {
+  private sendInsertRequest(arr: Array<Slot>, item: ItemViewModel, quantity: number) {
     if (quantity < 1) {
       this.success = true;
       this.ngOnInit();
       return;
     }
-    const ids = arr.pop();
+    const slot = arr.pop();
     this.http.post<ServerResponse<any>>(
-      RemoteUrl.Items.Remove(ids.orderId, ids.storageId) + `?removeDate=${date}`, {})
+      RemoteUrl.Items.Insert(slot.orderId, slot.storageId), item)
       .subscribe(res => {
         if (res.success) {
-          this.sendWithdrawRequest(arr, quantity - 1, date);
+          this.sendInsertRequest(arr, item, quantity - 1);
         } else {
           console.log(res);
           this.success = false;
-          arr.push(ids);
+          arr.push(slot);
         }
       });
   }
 }
+
 
 class Response { // Order
   id: number;
@@ -139,15 +139,14 @@ class Response { // Order
   storageSpaces: Array<Space>;
 }
 
-class Entry {
-  public startDate: string;
-  public endDate: string;
-  public free: Array<{ orderId: number, storageId: number }>;
-  public used: Array<{ orderId: number, storageId: number }>;
-  public items: Map<string, Array<{ orderId: number, storageId: number }>>;
-
-  public get name(): string {
-    return `${this.startDate.substr(0, 10)} :: ${this.endDate.substr(0, 10)}`;
+class Slot {
+  public startDate: Date;
+  public endDate: Date;
+  public item: Item;
+  public storageId: number;
+  public orderId: number;
+  public get free(): boolean {
+    return !this.item;
   }
 }
 
@@ -156,12 +155,14 @@ class Space {
   name: string; // warehouse name
   startDate: string;
   endDate: string;
-  item: {
-    id: number,
-    name: string, // category name
-    arriveDate: string,
-    removeDate: string
-  };
+  item: Array<Item>;
+}
+
+class Item {
+  id: number;
+  name: string; // category name
+  arriveDate: string;
+  removeDate: string;
 }
 
 class Category {
@@ -171,5 +172,7 @@ class Category {
 
 class ItemViewModel {
   categoryId: number;
-  ArriveDate: Date;
+  arriveDate: Date;
+  removeDate: Date;
+  quantity: number;
 }
