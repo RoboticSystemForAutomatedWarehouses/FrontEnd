@@ -29,6 +29,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { ItemsComponent } from './account/items/items.component';
 import { MapIteratorPipe } from './pipes/map-iterator.pipe';
 import { OrderTotalPipe } from './pipes/order-total.pipe';
+import { SortByKeyPipe } from './pipes/sort-by-key.pipe';
 
 const appRoutes: Routes = [
   {
@@ -90,7 +91,8 @@ const appRoutes: Routes = [
     CheckoutComponent,
     ItemsComponent,
     MapIteratorPipe,
-    OrderTotalPipe
+    OrderTotalPipe,
+    SortByKeyPipe
   ],
   imports: [
     BrowserModule,
