@@ -1,3 +1,36 @@
-<p>
-  edit-profile works!
-</p>
+<div class="container">
+    <div *ngIf="model === null" class="alert alert-box alert-danger">Error loading profile info. Please refresh page...</div>
+    <div *ngIf="model === undefined" class="alert alert-box alert-warning">Loading profile info. Please waite...</div>
+
+    <div>Edit Profile Info:</div>
+    <div *ngIf="model">
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">Name: </div>
+            <input [(ngModel)]="model.name" />
+        </div>
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">Email: </div>
+            <input type="email" [(ngModel)]="model.email" />
+        </div>
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">Gender: </div>
+            <select [(ngModel)]="model.gender">
+        <option [value]="0">Male</option>
+        <option [value]="1">Female</option>
+      </select>
+        </div>
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">Old Password: </div>
+            <input type="password" [(ngModel)]="model.oldPassword" />
+        </div>
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">New Password: </div>
+            <input type="password" [(ngModel)]="model.newPassword" />
+        </div>
+        <div class="form-group form-control-sm row m-1">
+            <div class="col-3">New Password Confirmation: </div>
+            <input type="password" [(ngModel)]="model.newPasswordConfirmation" />
+        </div>
+        <div class="btn btn-primary" (click)="submit()">Save</div>
+    </div>
+</div>
