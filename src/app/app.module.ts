@@ -30,6 +30,7 @@ import { ItemsComponent } from './account/items/items.component';
 import { MapIteratorPipe } from './pipes/map-iterator.pipe';
 import { OrderTotalPipe } from './pipes/order-total.pipe';
 import { SortByKeyPipe } from './pipes/sort-by-key.pipe';
+import { EditProfileComponent } from './account/edit-profile/edit-profile.component';
 
 const appRoutes: Routes = [
   {
@@ -66,6 +67,10 @@ const appRoutes: Routes = [
       {
         path: 'items',
         component: ItemsComponent
+      },
+      {
+        path: 'profile',
+        component: EditProfileComponent
       }
     ]
   }, {
@@ -92,7 +97,8 @@ const appRoutes: Routes = [
     ItemsComponent,
     MapIteratorPipe,
     OrderTotalPipe,
-    SortByKeyPipe
+    SortByKeyPipe,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
