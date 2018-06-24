@@ -3,7 +3,9 @@ export class RemoteUrl {
     public static Account = {
         Login: RemoteUrl.BaseUrl + 'Account/Login',
         Logout: RemoteUrl.BaseUrl + 'Account/Logout',
-        Register: RemoteUrl.BaseUrl + 'Account/Register'
+        Register: RemoteUrl.BaseUrl + 'Account/Register',
+        Get(id: string): string { return RemoteUrl.BaseUrl + 'Account/Get/' + id; },
+        Update(id: string): string { return RemoteUrl.BaseUrl + 'Account/Update/' + id; }
     };
     public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
     public static Orders = {
