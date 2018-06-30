@@ -1,95 +1,93 @@
-<div class="container row col-11 m-2">
-    <div class="col-3">
-        <div class="col-12 text-center">
-            <h3>Our warehouses</h3>
-        </div>
-        <div *ngIf="data===null" class="m-1 card">
-            <h3 class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
-        </div>
-        <owl-carousel [items]="data" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
-            <div class="item" *ngFor="let warehouse of data">
-                <div class="card m-1">
-                    <div class="card-header">
-                        {{warehouse.name}}
+<div class="wrapper row3">
+    <section class="hoc container clear">
+        <ul class="nospace group services">
+            <li class="one_quarter first">
+                <h6 class="heading text-center">Our warehouses <a *ngIf="data">({{data.length}})</a></h6>
+                <article *ngIf="data===null" class="m-1">
+                    <h3 class="text text-info alert-info">Loading warehouse info... please wait ☺</h3>
+                </article>
+                <owl-carousel [items]="data" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
+                    <article class="item" *ngFor="let warehouse of data">
+                        <div class="m-1">
+                            <h6 class="card-header">
+                                {{warehouse.name}}
+                            </h6>
+                            <div class="row ml-1">
+                                Initial cost: {{warehouse.priceSchema.baseCost}}$
+                            </div>
+                            <div class="row ml-1">
+                                Daily rate: {{warehouse.priceSchema.dailyRate}}$
+                            </div>
+                            <div class="row ml-1">
+                                Taxes: {{warehouse.priceSchema.taxPercent}}%
+                            </div>
+                            <div class="row ml-1">
+                                Available units: {{warehouse.available}}
+                            </div>
+                            <input type="submit" (click)="createOrder(warehouse)" value="Add Order" class="mt-2" />
+                        </div>
+                    </article>
+                </owl-carousel>
+            </li>
+            <li class="two_quarter">
+                <h6 class="heading text-center">{{editing ? 'Edit' : 'Add'}} Order</h6>
+                <article>
+                    <div *ngIf="model">
+                        <div class="row">
+                            <div>Quantity: </div>
+                            <input type="number" min="0" [max]="maxUnits" [(ngModel)]="model.quantity" class="m-1">
+                            <div class="text text-info">maximum ({{maxUnits}})</div>
+                        </div>
+                        <div class="row">
+                            <div>Start Date: </div>
+                            <input type="date" min="{{today}}" (change)="startDayChange()" [(ngModel)]="model.startDate" class="m-1">
+                        </div>
+                        <div class="row">
+                            <div>End Date: </div>
+                            <input type="date" [min]="minEndDay" [(ngModel)]="model.endDate" class="m-1">
+                        </div>
+                        <div class="row">
+                            <div class="btn btn-success m-1" (click)="addOrder(model, !editing)">Save</div>
+                            <div *ngIf="!editing" class="btn btn-danger m-1" (click)="cancel()">Cancel</div>
+                        </div>
                     </div>
-                    <div class="card-body">
+                </article>
+            </li>
+            <li class="one_quarter">
+                <h6 class="heading text-center">Orders basket ({{order.length}})</h6>
+                <div class="text text-primary text-center">Total: <i>{{order|orderTotal}}</i> $</div>
+                <owl-carousel [items]="order" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
+                    <article class="item" ngfor *ngFor="let entry of order; let i=index">
+                        <h6 class="card-header">
+                            {{getWarehouseName(entry.warehouseId)}}: {{entry.price}}$
+                        </h6>
+                        <div class="row">Quantity: {{entry.quantity}}</div>
+                        <div class="row">Start:&nbsp;<input type="date" [value]="entry.startDate" readonly="readonly" /></div>
+                        <div class="row">End:&nbsp;&nbsp;&nbsp;<input type="date" [value]="entry.endDate" readonly="readonly" /></div>
                         <div class="row">
-                            Initial cost: {{warehouse.priceSchema.baseCost}}$
+                            <fa name="edit" size="lg" (click)="editOrder(i)"></fa>
+                            &nbsp;&nbsp;
+                            <fa name="close" size="lg" (click)="removeOrder(i)"></fa>
                         </div>
-                        <div class="row">
-                            Daily rate: {{warehouse.priceSchema.dailyRate}}$
-                        </div>
-                        <div class="row">
-                            Taxes: {{warehouse.priceSchema.taxPercent}}%
-                        </div>
-                        <div class="row">
-                            Available units: {{warehouse.available}}
-                        </div>
-                        <button class="btn btn-success mt-2" (click)="createOrder(warehouse)">Add Order</button>
-                    </div>
+                    </article>
+                </owl-carousel>
+                <div class="m-1">
+                    <ng-container *ngIf="auth.isAuthenticated; else loginToCheckout">
+                        <ng-container *ngIf="order.length > 0; else emptyCart">
+                            <a class="btn" routerLink="/checkout">Checkout</a>
+                        </ng-container>
+                        <ng-template #emptyCart>
+                            <div class="card-header">Your cart is empty. Checkout our available warehouses in the other side.</div>
+                        </ng-template>
+                    </ng-container>
+                    <ng-template #loginToCheckout>
+                        <a class="btn" routerLink="/login">Login</a> or
+                        <a class="btn" routerLink="/register">Register</a> to checkout
+                    </ng-template>
                 </div>
-            </div>
-        </owl-carousel>
-    </div>
-    <div class="col-6">
-        <h3 class="text-center">{{editing ? 'Edit' : 'Add'}} Order</h3>
-        <div class="card">
-            <div class="col-12 center" *ngIf="model">
-                <div class="row">
-                    <div>Quantity: </div>
-                    <input type="number" min="0" [max]="maxUnits" [(ngModel)]="model.quantity" class="m-1">
-                    <div class="text text-info">maximum ({{maxUnits}})</div>
-                </div>
-                <div class="row">
-                    <div>Start Date: </div>
-                    <input type="date" min="{{today}}" (change)="startDayChange()" [(ngModel)]="model.startDate" class="m-1">
-                </div>
-                <div class="row">
-                    <div>End Date: </div>
-                    <input type="date" [min]="minEndDay" [(ngModel)]="model.endDate" class="m-1">
-                </div>
-                <div class="row">
-                    <div class="btn btn-success m-1" (click)="addOrder(model, !editing)">Save</div>
-                    <div *ngIf="!editing" class="btn btn-danger m-1" (click)="cancel()">Cancel</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-3">
-        <h3 class="text-center">Orders basket</h3>
-        <div class="text text-primary text-center">( <i>{{order|orderTotal}}</i> )</div>
-        <owl-carousel [items]="order" [options]="{items: 1, navigation: true, loop: true}" [carouselClasses]="['owl-theme']">
-            <div class="card item" ngfor *ngFor="let entry of order; let i=index">
-                <div class="card-body">
-                    <div class="row">Warehouse: {{entry.warehouseId}}</div>
-                    <div class="row">Quantity: {{entry.quantity}}</div>
-                    <div class="row">{{entry.startDate}} | {{entry.endDate}}</div>
-                    <div class="row">Price: {{entry.price}}</div>
-                    <div class="row m-1">
-                        <fa name="edit" size="lg" (click)="editOrder(i)"></fa>
-                        &nbsp;&nbsp;
-                        <fa name="close" size="lg" (click)="removeOrder(i)"></fa>
-                    </div>
-                </div>
-            </div>
-        </owl-carousel>
-        <div class="m-1">
-            <ng-container *ngIf="auth.isAuthenticated; else loginToCheckout">
-                <ng-container *ngIf="order.length > 0; else emptyCart">
-                    <a routerLink="/checkout">
-                        <div class="btn btn-warning">Checkout</div>
-                    </a>
-                </ng-container>
-                <ng-template #emptyCart>
-                    <div class="card m-1 text text-info">Your cart is empty. Checkout our available warehouses in the other side.</div>
-                </ng-template>
-            </ng-container>
-            <ng-template #loginToCheckout>
-                <div class="alert-danger">
-                    <a routerLink="/login">Login</a> or
-                    <a routerLink="/register">Register</a> to checkout
-                </div>
-            </ng-template>
-        </div>
-    </div>
+            </li>
+        </ul>
+        <!-- ################################################################################################ -->
+        <div class="clear"></div>
+    </section>
 </div>

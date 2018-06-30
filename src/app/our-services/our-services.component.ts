@@ -104,6 +104,10 @@ export class OurServicesComponent implements OnInit {
     this.order.splice(idx, 1);
     this.saveOrder();
   }
+
+  public getWarehouseName(id: number) {
+    return this.data.filter(w => w.id === id)[0].name;
+  }
 }
 
 class Warehouse {
