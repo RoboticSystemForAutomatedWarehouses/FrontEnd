@@ -1,22 +1,63 @@
-<div class="static">
-    <img class="col-12 img-responsive" src="/assets/img/wareh.jpg" height="auto">
-
-    <nav class="row menu">
-
-        <ul class="col-12 text-center">
-            <li> <a routerLink="/home">Home</a> </li>
-            <ng-container *ngIf="authenticationService.isAuthenticated; else unAuthenticatedTemplate ">
-                <li> <a routerLink="/account">Account</a> </li>
-                <li> <a routerLink="/logout">Logout</a> </li>
-            </ng-container>
-            <ng-template #unAuthenticatedTemplate>
-                <li> <a routerLink="/login">Login</a> </li>
-                <li> <a routerLink="/register">Register</a> </li>
-            </ng-template>
-            <li> <a routerLink="/services">Services</a> </li>
-            <li> <a routerLink="/about">About Us</a> </li>
-            <li> <a routerLink="/contact">Call us</a> </li>
-        </ul>
-
-    </nav>
+<div *ngIf="displayImage" class="bgded overlay" style="background-image:url('/assets/img/wareh.jpg');">
+    <div id="pageintro" class="hoc clear"></div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row0">
+    <div id="topbar" class="hoc clear">
+        <div class="fl_left">
+            <ul class="nospace">
+                <li><i class="fa fa-clock-o"></i> Mon. - Fri. 8am - 5pm</li>
+                <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
+                <li><i class="fa fa-envelope-o"></i> info@domain.com</li>
+            </ul>
+        </div>
+        <div class="fl_right">
+            <ul class="nospace">
+                <li><a title="Home" routerLink="/home"><i class="fa fa-lg fa-home"></i></a></li>
+                <li><a title="Login" routerLink="/login"><i class="fa fa-lg fa-sign-in"></i></a></li>
+                <li><a title="Sign Up" routerLink="/register"><i class="fa fa-lg fa-edit"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row1">
+    <header id="header" class="hoc clear">
+        <div id="logo" class="fl_left">
+            <h1><a>Automated Warehouse</a></h1>
+        </div>
+        <nav id="mainav" class="fl_right">
+            <ul class="clear">
+                <li><a routerLink="/home">Home</a></li>
+                <li> <a routerLink="/services">Services</a> </li>
+                <!-- <li> <a routerLink="/about">About Us</a> </li> -->
+                <!-- <li> <a routerLink="/contact">Call us</a> </li> -->
+                <ng-container *ngIf="authenticationService.isAuthenticated; else unAuthenticatedTemplate ">
+                    <li> <a routerLink="/account">Account</a> </li>
+                    <li> <a routerLink="/logout">Logout</a> </li>
+                </ng-container>
+                <ng-template #unAuthenticatedTemplate>
+                    <li> <a routerLink="/login">Login</a> </li>
+                    <li> <a routerLink="/register">Register</a> </li>
+                </ng-template>
+                <!-- <li><a class="drop" >Dropdown</a>
+                    <ul>
+                        <li><a >Level 2</a></li>
+                        <li><a class="drop" >Level 2 + Drop</a>
+                            <ul>
+                                <li><a >Level 3</a></li>
+                                <li><a >Level 3</a></li>
+                                <li><a >Level 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a >Level 2</a></li>
+                    </ul>
+                </li> -->
+            </ul>
+        </nav>
+    </header>
 </div>
