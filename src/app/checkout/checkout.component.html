@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6">
-                    <table class="table table-active table-hover table-striped">
+                    <table>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -37,18 +37,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let entry of checkResults; let i = index" [ngClass]="{'bg-success': entry.item1, 'bg-danger': !entry.item1}">
-                                <th>{{i}}</th>
-                                <th>
-                                    <div>Warehouse: {{order[i].warehouseId}}</div>
+                            <tr *ngFor="let entry of checkResults; let i = index" [ngClass]="{'table-danger': !entry.item1}">
+                                <td>{{i}}</td>
+                                <td>
                                     <div>Quantity: {{order[i].quantity}}</div>
-                                    <div>Start Date: {{order[i].startDate}}</div>
-                                    <div>End Date: {{order[i].endDate}}</div>
-                                </th>
-                                <th>{{entry.item2}}</th>
-                                <th>
+                                    <div>Period: {{order[i].startDate}} - {{order[i].endDate}}</div>
+                                </td>
+                                <td>{{entry.item2}}</td>
+                                <td>
                                     <fa name="remove" (click)="removeEntry(i)"></fa>
-                                </th>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

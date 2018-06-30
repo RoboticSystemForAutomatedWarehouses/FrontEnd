@@ -62,6 +62,7 @@ export class CheckoutComponent implements OnInit {
     this.order.splice(idx, 1);
     this.saveOrder();
     this.checkResults.splice(idx, 1);
+    this.canPay = false;
   }
 
   private saveOrder() {
