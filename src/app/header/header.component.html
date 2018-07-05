@@ -1,4 +1,4 @@
-<div *ngIf="displayImage" class="bgded overlay" style="background-image:url('/assets/img/wareh.jpg');">
+<div *ngIf="displayImage" class="bgded" style="background-image:url('/assets/img/2.jpg');background-repeat: round;">
     <div id="pageintro" class="hoc clear"></div>
 </div>
 <!-- ################################################################################################ -->
@@ -26,8 +26,14 @@
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <div class="wrapper row1">
-    <div class="hoc clear">
-        <div id="mini"></div>
+    <div class="hoc clear row">
+        <div id="mini">
+        </div>
+        <div id="t" class="rtl text text-right">
+            <p>
+                {{message}}
+            </p>
+        </div>
     </div>
     <header id="header" class="hoc clear">
         <div id="logo" class="fl_left">

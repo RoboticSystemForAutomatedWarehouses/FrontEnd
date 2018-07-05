@@ -1,3 +1,61 @@
+.speech-bubble {
+    position: relative;
+    background: #00aabb;
+    border-radius: .4em;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 36px solid transparent;
+    border-right-color: #00aabb;
+    border-left: 0;
+    margin-top: -36px;
+    margin-left: -36px;
+}
+
+.bubble {
+    position: relative;
+    background: #FFFFCC;
+    border: 1px solid #FFCC00;
+    max-width: 250px;
+    padding: 10px;
+    font-family: arial;
+    margin: 0 auto;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.bubble:after,
+.bubble:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.bubble:after {
+    border-color: rgba(255, 255, 204, 0);
+    border-right-color: #FFFFCC;
+    border-width: 15px;
+    margin-top: -15px;
+}
+
+.bubble:before {
+    border-color: rgba(255, 204, 0, 0);
+    border-right-color: #FFCC00;
+    border-width: 16px;
+    margin-top: -16px;
+}
+
 #mini {
     position: relative;
     animation: miniRobot 25s linear infinite;
@@ -11,49 +69,83 @@
     background-color: transparent;
 }
 
-@keyframes miniRobot {
+#t {
+    position: relative;
+    padding-left: 0px;
+    animation: robotText 25s linear infinite;
+}
+
+@keyframes robotText {
     0% {
-        left: 0px;
+        left: 10%;
         top: 0px;
-        transform: scaleX(0)
+        transform: scaleX(1)
     }
     2% {
-        left: 0px;
+        left: 10%;
         top: 0px;
-        transform: scaleX(-1)
+        transform: scaleX(1)
     }
-    /* 33% {
-        left: 50%;
-        top: 0px;
-        transform: scaleX(-1)
-    } */
     48% {
-        left: 90%;
+        left: 110%;
         top: 0px;
-        transform: scaleX(-1)
+        transform: scaleX(1)
     }
     50% {
-        left: 90%;
+        left: 110%;
         top: 0px;
-        transform: scaleX(0)
+        transform: scaleX(1)
     }
     52% {
-        left: 90%;
+        left: 110%;
         top: 0px;
         transform: scaleX(1)
     }
-    /* 66% {
-        left: 50%;
-        top: 0px;
-        transform: scaleX(1)
-    } */
     98% {
-        left: 0px;
+        left: 10%;
         top: 0px;
         transform: scaleX(1)
     }
     100% {
-        left: 0px;
+        left: 10%;
+        top: 0px;
+        transform: scaleX(1)
+    }
+}
+
+@keyframes miniRobot {
+    0% {
+        left: 10%;
+        top: 0px;
+        transform: scaleX(0)
+    }
+    2% {
+        left: 10%;
+        top: 0px;
+        transform: scaleX(-1)
+    }
+    48% {
+        left: 110%;
+        top: 0px;
+        transform: scaleX(-1)
+    }
+    50% {
+        left: 110%;
+        top: 0px;
+        transform: scaleX(0)
+    }
+    52% {
+        left: 110%;
+        top: 0px;
+        transform: scaleX(1)
+    }
+    98% {
+        left: 10%;
+        top: 0px;
+        transform: scaleX(1)
+    }
+    100% {
+        left: 10%;
         top: 0px;
         transform: scaleX(0)
     }
