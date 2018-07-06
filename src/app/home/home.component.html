@@ -1,66 +1,14 @@
 <div class="wrapper row3">
     <main class="hoc container clear">
         <div class="content">
-            <div class="group btmspace-50 demo">
-                <div class="one_third first">
+            <div *ngFor="let group of news;" class="group btmspace-50 demo">
+                <div *ngFor="let n of group; let f = first" [ngClass]="{'one_third': true, 'first': f}">
                     <div class="card">
                         <div class="card-title">
-                            News (date)
+                            {{n.title}} ({{n.date}})
                         </div>
                         <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facilis, tempore, ratione velit, beatae consequuntur corrupti distinctio unde impedit placeat vitae! Sint nostrum omnis assumenda enim, voluptate veniam tenetur esse!
-                        </div>
-                    </div>
-                </div>
-                <div class="one_third">
-                    <div class="card">
-                        <div class="card-title">
-                            News (date)
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facilis, tempore, ratione velit, beatae consequuntur corrupti distinctio unde impedit placeat vitae! Sint nostrum omnis assumenda enim, voluptate veniam tenetur esse!
-                        </div>
-                    </div>
-                </div>
-                <div class="one_third">
-                    <div class="card">
-                        <div class="card-title">
-                            News (date)
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facilis, tempore, ratione velit, beatae consequuntur corrupti distinctio unde impedit placeat vitae! Sint nostrum omnis assumenda enim, voluptate veniam tenetur esse!
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="group btmspace-50 demo">
-                <div class="one_third first">
-                    <div class="card">
-                        <div class="card-title">
-                            News (date)
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facilis, tempore, ratione velit, beatae consequuntur corrupti distinctio unde impedit placeat vitae! Sint nostrum omnis assumenda enim, voluptate veniam tenetur esse!
-                        </div>
-                    </div>
-                </div>
-                <div class="one_third">
-                    <div class="card">
-                        <div class="card-title">
-                            News (date)
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facil
-                        </div>
-                    </div>
-                </div>
-                <div class="one_third">
-                    <div class="card">
-                        <div class="card-title">
-                            News (date)
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facilis, tempore, ratione velit, beatae consequuntur corrupti distinctio unde impedit placeat vitae! Sint nostrum omnis assumenda enim, voluptate veniam tenetur esse!
+                            {{n.content}}
                         </div>
                     </div>
                 </div>
