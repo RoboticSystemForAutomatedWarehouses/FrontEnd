@@ -1,5 +1,6 @@
 export class RemoteUrl {
-    public static BaseUrl = 'http://localhost:56717/api/';
+    public static BaseUrl = 'http://192.168.10.17:5000/api/';
+    public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
     public static Account = {
         Login: RemoteUrl.BaseUrl + 'Account/Login',
         Logout: RemoteUrl.BaseUrl + 'Account/Logout',
@@ -7,7 +8,6 @@ export class RemoteUrl {
         Get(id: string): string { return RemoteUrl.BaseUrl + 'Account/Get/' + id; },
         Update(id: string): string { return RemoteUrl.BaseUrl + 'Account/Update/' + id; }
     };
-    public static Warehouse = RemoteUrl.BaseUrl + 'Warehouse/List';
     public static Orders = {
         Check: RemoteUrl.BaseUrl + 'Orders/Check',
         Confirm: RemoteUrl.BaseUrl + 'Orders/Confirm',
@@ -21,4 +21,7 @@ export class RemoteUrl {
         Insert(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Insert/${storageId}`; },
         Remove(orderId, storageId): string { return RemoteUrl.BaseUrl + `Order/${orderId}/StorageSpaces/Remove/${storageId}`; }
     };
+    public static News(count: number) {
+        return this.BaseUrl + 'News/List/?count=' + count.toString();
+    }
 }
